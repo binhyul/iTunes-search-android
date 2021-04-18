@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hjcho.itunes_search.databinding.FragmentFavoriteBinding
-import com.hjcho.itunes_search.databinding.FragmentTrackBinding
 import com.hjcho.itunes_search.ui.MainViewModelHolder
-import dagger.android.support.DaggerFragment
+import com.hjcho.itunes_search.ui.common.BaseFragment
 import timber.log.Timber
 
-class FavoriteFragment : DaggerFragment() {
+class FavoriteFragment : BaseFragment() {
+
+    override val TAG: String = "FavoriteFragment"
 
     lateinit var binding: FragmentFavoriteBinding
 

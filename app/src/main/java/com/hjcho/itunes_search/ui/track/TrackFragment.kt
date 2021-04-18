@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.hjcho.itunes_search.databinding.FragmentTrackBinding
 import com.hjcho.itunes_search.ui.MainViewModelHolder
-import dagger.android.support.DaggerFragment
+import com.hjcho.itunes_search.ui.common.BaseFragment
 import timber.log.Timber
 
-class TrackFragment : DaggerFragment() {
+class TrackFragment : BaseFragment() {
 
+    override val TAG: String = "TrackFragment"
 
     lateinit var binding: FragmentTrackBinding
 
