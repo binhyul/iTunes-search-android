@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.hjcho.itunes_search.ui.SongViewItem" />
+
+        <variable
+            name="actionListener"
+            type="com.hjcho.itunes_search.ui.SongActionListener" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintDimensionRatio="1:0.2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/tb_favorite"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@{model.favorite ? @drawable/folder_color : @drawable/folder_normal}"
+                android:onClick="@{() ->actionListener.onCheckFavorite(model.songModel.trackId)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/iv_img"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.075" />
+
+
+            <ImageView
+                android:id="@+id/iv_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:glideSrcUrl="@{model.songModel.artworkUrl60}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@+id/tb_favorite"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@android:color/holo_purple" />
+
+
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{model.songModel.trackName}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_collection"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="21 Guns" />
+
+
+            <TextView
+                android:id="@+id/tv_collection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{model.songModel.collectionName}"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toTopOf="@+id/tv_artist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_shop_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_shop_name"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="21st ..." />
+
+            <TextView
+                android:id="@+id/tv_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.songModel.artistName}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="@+id/tv_collection"
+                app:layout_constraintTop_toBottomOf="@+id/tv_collection"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Green Day" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_item"
+            app:layout_constraintWidth_percent="0.95" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
