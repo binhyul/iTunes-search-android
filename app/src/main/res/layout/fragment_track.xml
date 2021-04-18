@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:items="@{vm.songItems}"
             android:orientation="vertical"
+            android:song_action_listener="@{vm}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -33,23 +33,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ToggleButton
+            <ImageView
                 android:id="@+id/tb_favorite"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/favorite_drawable"
-                android:checked="@{model.favorite}"
-                android:songItem="@{model}"
-                android:textOff=""
-                android:textOn=""
+                android:background="@{model.favorite ? @drawable/folder_color : @drawable/folder_normal}"
+                android:onClick="@{() ->actionListener.onCheckFavorite(model.songModel.trackId)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@+id/iv_img"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.075"
-                app:onCheckedFavoriteListener="@{actionListener}" />
+                app:layout_constraintWidth_percent="0.075" />
 
 
             <ImageView

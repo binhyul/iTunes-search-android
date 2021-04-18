@@ -1,19 +1,18 @@
 package com.hjcho.itunes_search.ui
 
-import androidx.lifecycle.*
-import com.hjcho.itunes_search.R
-import com.hjcho.itunes_search.domain.song.GetSongListUseCase
-import com.hjcho.itunes_search.util.RecyclerItem
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.hjcho.itunes_search.BR
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hjcho.itunes_search.data.db.SongModel
+import com.hjcho.itunes_search.domain.song.GetSongListUseCase
 import com.hjcho.itunes_search.domain.song.OnCheckedFavoriteTrackUseCase
 import com.hjcho.itunes_search.domain.song.SongListModel
-import com.hjcho.itunes_search.util.RecyclerItemComparator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class MainViewModel @Inject constructor(
@@ -22,19 +21,11 @@ class MainViewModel @Inject constructor(
 ) : ViewModel(), SongActionListener {
 
     private val _songItems: MutableLiveData<List<SongViewItem>> = MutableLiveData()
-    val songItems: LiveData<List<RecyclerItem>> = Transformations.map(_songItems) { list ->
-        list.map {
-            it.toRecyclerItem(this)
-        }
-    }
+    val songItems: LiveData<List<SongViewItem>> = _songItems
 
     private val _favoriteSongItems: MutableLiveData<List<SongViewItem>> = MutableLiveData()
-    val favoriteSongItems: LiveData<List<RecyclerItem>> =
-        Transformations.map(_favoriteSongItems) { list ->
-            list.map {
-                it.toRecyclerItem(this)
-            }
-        }
+    val favoriteSongItems: LiveData<List<SongViewItem>> = _favoriteSongItems
+
 
     init {
         viewModelScope.launch {
@@ -51,10 +42,10 @@ class MainViewModel @Inject constructor(
 
     }
 
-    override fun onCheckFavorite(trackId: Int, isChecked: Boolean) {
+    override fun onCheckFavorite(trackId: Int) {
         _songItems.value = _songItems.value?.map { song ->
             if (song.songModel.trackId == trackId) {
-                val newSongItem = song.copy(favorite = isChecked)
+                val newSongItem = song.copy(favorite = !song.favorite)
                 onCheckedFavoriteTrack(newSongItem)
                 newSongItem
             } else {
@@ -76,28 +67,10 @@ class MainViewModel @Inject constructor(
 }
 
 interface SongActionListener {
-    fun onCheckFavorite(trackId: Int, isChecked: Boolean)
+    fun onCheckFavorite(trackId: Int)
 }
 
 data class SongViewItem(
     val songModel: SongModel,
     val favorite: Boolean
-) : RecyclerItemComparator {
-
-    override fun isSameContent(other: Any): Boolean {
-        return favorite == (other as SongViewItem).favorite
-    }
-
-    override fun isSameItem(other: Any): Boolean {
-        return songModel.trackId == (other as SongViewItem).songModel.trackId
-    }
-
-}
-
-
-fun SongViewItem.toRecyclerItem(actionListener: SongActionListener) =
-    RecyclerItem(
-        listOf(BR.model to this, BR.actionListener to actionListener), R.layout.song_item
-    )
-
-
+)

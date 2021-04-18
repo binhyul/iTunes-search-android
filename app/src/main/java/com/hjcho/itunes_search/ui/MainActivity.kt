@@ -90,14 +90,3 @@ class MainActivity : DaggerAppCompatActivity(), MainViewModelHolder {
     }
 
 }
-
-@BindingAdapter("android:songItem", "app:onCheckedFavoriteListener")
-fun setOnCheckedFavoriteListener(
-    view: ToggleButton,
-    songItem: SongViewItem,
-    actionListener: SongActionListener
-) {
-    view.setOnCheckedChangeListener { buttonView, isChecked ->
-        actionListener.onCheckFavorite(songItem.songModel.trackId, isChecked)
-    }
-}
